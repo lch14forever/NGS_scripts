@@ -1,0 +1,13 @@
+PATTERN = '%.'
+
+bt2align = {
+  doc title: "bowtie2 alignment"
+  branch.PREFIX = branch.name
+  produce("${PREFIX}.sorted.bam"){
+    exec """
+      bowtie2 -p $threads -x $BT2_INDEX -1 $input1 -2 $input2 | 
+        samtools view -buS - | 
+        samtools sort - ${PREFIX}.sorted
+    """
+  }
+}
