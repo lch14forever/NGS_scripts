@@ -24,12 +24,14 @@ def main(arguments):
 
     args = parser.parse_args(arguments)
 
-    # if args.inFile == '-':
-    #     inH = sys.stdin
-    # else:
-    #     inH = open(args.inFile, 'rU')
+    if args.inFile == '-':
+        #inH = sys.stdin
+	samfile = pysam.Samfile("-", "rb")
+    else:
+	samfile = pysam.Samfile(args.inFile, "rb")
+      	#inH = open(args.inFile, 'rU')
 
-    samfile = pysam.Samfile(args.inFile, "rb")
+    #samfile = pysam.Samfile(args.inFile, "rb")
     indelmisList=[]
     counter = 0
     for read in samfile:
