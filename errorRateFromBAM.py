@@ -33,9 +33,8 @@ def main(arguments):
 
     #samfile = pysam.Samfile(args.inFile, "rb")
     indelmisList=[]
-    counter = 0
+    
     for read in samfile:
-        counter+=1
     
         #list of cigar tuples
         cigar = read.cigar
@@ -43,12 +42,11 @@ def main(arguments):
         alignlen = read.qlen
         querylen = read.rlen
     
-        #error rate for del insert mismatch
+        #readlenth mismatch insertion deletion
         indelmisTuple = [querylen, 0.0, 0.0, 0.0]
     
         #skip when cigar is none
-        if cigar == None:
-            error.append(counter)	
+        if cigar == None:	
             continue
     
         for cigartuple in cigar:
