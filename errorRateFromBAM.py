@@ -39,7 +39,7 @@ def main(arguments):
         #list of cigar tuples
         cigar = read.cigar
     
-        alignlen = read.qlen
+        alignlen = 0
         querylen = read.rlen
     
         #readlenth mismatch insertion deletion
@@ -50,13 +50,19 @@ def main(arguments):
             continue
     
         for cigartuple in cigar:
+
+
+            if cigartuple[0]==4 or cigartuple[0]==5:
+            	continue
+		
+            alignlen+=cigartuple[1]
             if cigartuple[0]==1:
 		indelmisTuple[2]+=cigartuple[1]
 		
             elif cigartuple[0]==2:
                 indelmisTuple[3]+=cigartuple[1]
-    
-    
+    		
+
         indelmisTuple[1]+=(read.tags[0][1]) - indelmisTuple[2] - indelmisTuple[3]
         indelmisTuple[2]/=alignlen
         indelmisTuple[3]/=alignlen
