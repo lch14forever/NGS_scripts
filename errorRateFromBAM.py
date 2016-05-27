@@ -46,7 +46,7 @@ def main(arguments):
         indelmisTuple = [querylen, 0.0, 0.0, 0.0]
     
         #skip when cigar is none
-        if cigar == None:	
+        if cigar == None or read.is_secondary:	
             continue
     
         for cigartuple in cigar:
