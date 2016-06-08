@@ -16,6 +16,12 @@ def main(arguments):
                         required="True",
                         dest="inFile",
                         help="Input BAM file (use - for stdin)")
+    parser.add_argument("-c", "--min_coverage",
+                        required="False",
+                        dest="min_coverage",
+                        type=float,
+                        default=0.0,
+                        help="Minimal coverage threshold to filter out spurious alignments (default: 0.0)")
     parser.add_argument('-o', '--outfile',
                         dest="outFile",
                         help="Output file",
@@ -66,10 +72,10 @@ def main(arguments):
         indelmisTuple[1]+=(read.tags[0][1]) - indelmisTuple[2] - indelmisTuple[3]
         indelmisTuple[2]/=alignlen
         indelmisTuple[3]/=alignlen
-	   
         indelmisTuple[1]/=alignlen
-
-        args.outFile.write("\t".join(map(str, indelmisTuple)) + "\n")
+        
+        if alignlen/querylen > args.min_coverage:
+            args.outFile.write("\t".join(map(str, indelmisTuple)) + "\n")
     
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1:]))
