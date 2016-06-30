@@ -46,8 +46,9 @@ def main(arguments):
         indelmisTuple = [querylen, 0.0, 0.0, 0.0]
     
         #skip when cigar is none
-        if cigar == None or read.is_secondary:	
-            continue
+        if cigar == None or read.is_secondary or read.flag & 0x800 == 2048:	
+            	
+		continue
     
         for cigartuple in cigar:
 
@@ -62,13 +63,14 @@ def main(arguments):
             elif cigartuple[0]==2:
                 indelmisTuple[3]+=cigartuple[1]
     		
+        NM = dict(read.tags)["NM"] 
+        indelmisTuple[1]+= NM - indelmisTuple[2] - indelmisTuple[3]
 
-        indelmisTuple[1]+=(read.tags[0][1]) - indelmisTuple[2] - indelmisTuple[3]
         indelmisTuple[2]/=alignlen
         indelmisTuple[3]/=alignlen
 	   
         indelmisTuple[1]/=alignlen
-
+	
         args.outFile.write("\t".join(map(str, indelmisTuple)) + "\n")
     
 if __name__ == '__main__':
