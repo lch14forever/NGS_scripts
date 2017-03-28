@@ -47,22 +47,22 @@ def main(arguments):
             sys.exit("Cowardly refusing to overwrite existing directory structures...\n")
 
     for fast5 in args.infiles:
-        f = h5py.File(fast5, 'r')
-        f_target = dir_pass
-        status = '1D'  ## ["1D", "2D_pass", "2D_fail"]
-        if not '/Analyses/Basecall_2D_000/BaseCalled_2D' in f:
-            ## 2D calling failed
-            f_target = dir_fail
-            status = '1D'
-        else:
-            mean_qscore = f['/Analyses/Basecall_2D_000/Summary/basecall_2d/'].attrs['mean_qscore']
-            if mean_qscore >= args.min_mean_q:
-                ## 2D read does not pass quality filter
-                f_target = dir_pass
-                status = '2D_pass'
-            else:
+        with h5py.File(fast5, 'r') as f:
+            f_target = dir_pass
+            status = '1D'  ## ["1D", "2D_pass", "2D_fail"]
+            if not '/Analyses/Basecall_2D_000/BaseCalled_2D' in f:
+                ## 2D calling failed
                 f_target = dir_fail
-                status = '2D_fail'
+                status = '1D'
+            else:
+                mean_qscore = f['/Analyses/Basecall_2D_000/Summary/basecall_2d/'].attrs['mean_qscore']
+                if mean_qscore >= args.min_mean_q:
+                    f_target = dir_pass
+                    status = '2D_pass'
+                else:
+                    ## 2D read does not pass quality filter
+                    f_target = dir_fail
+                    status = '2D_fail'
         if args.list_files_only:
             basename = fast5.split("/")[-1]
             folder = f_target.split("/")[-1]
