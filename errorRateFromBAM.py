@@ -13,11 +13,11 @@ def main(arguments):
     parser = argparse.ArgumentParser(description=__doc__)
 
     parser.add_argument("-i", "--input",
-                        required="True",
+                        required=True,
                         dest="inFile",
                         help="Input BAM file (use - for stdin)")
     parser.add_argument("-c", "--min_coverage",
-                        required="False",
+                        required=False,
                         dest="min_coverage",
                         type=float,
                         default=0.0,
@@ -71,13 +71,12 @@ def main(arguments):
     		
         NM = dict(read.tags)["NM"] 
         indelmisTuple[1]+= NM - indelmisTuple[2] - indelmisTuple[3]
-
+        ##        indelmisTuple[1]+=(read.tags[0][1]) - indelmisTuple[2] - indelmisTuple[3]
         indelmisTuple[2]/=alignlen
         indelmisTuple[3]/=alignlen
         indelmisTuple[1]/=alignlen
-        
-        if alignlen/querylen > args.min_coverage:
-            args.outFile.write("\t".join(map(str, indelmisTuple)) + "\n")
+        if alignlen*1.0/querylen > args.min_coverage:
+            args.outFile.write("\t".join([read.qname] +map(str, indelmisTuple)) + "\n")
 
     
 if __name__ == '__main__':
