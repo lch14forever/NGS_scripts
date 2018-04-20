@@ -23,8 +23,8 @@ else:
 query_list = []
 for l in f:
     # skip the lines masked as command, may be header
-    if not l.startswith('#'):
-        query_list += [l.strip()]
+    # if not l.startswith('#'):
+    query_list += [l.strip()]
 f.close()
 
 

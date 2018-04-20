@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 
 """Filter fast5 files, split them into pass/fail folders.
-
 """
+__author__ = "Li Chenhao"
+__license__ = "MIT"
+__maintainer__ = "Li Chenhao"
+__email__ = "lich@gis.a-star.edu.sg"
+
 
 import os
 import sys
