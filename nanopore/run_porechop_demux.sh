@@ -18,11 +18,12 @@ $PORECHOP -i $input -b $demux_folder -t $threads -v 2
 
 echo Renaming output folders...
 
-for i in ${demux_folder}/*fastq.gz;
+for i in ${demux_folder}/*fastq;
 do
     bs_i=`basename $i`
-    f=${bs%%_*}_${bs_i%%.fastq*}
+    f=${dir}/${bs%%_*}_${bs_i%%.fastq}
+    gzip $i
     mkdir $f
-    mv $i ${f}/${bs%%_*}_${bs_i}
+    mv $i.gz ${f}/${bs%%_*}_${bs_i}.gz
 done
 rmdir $demux_folder
