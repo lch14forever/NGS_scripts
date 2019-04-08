@@ -2,6 +2,7 @@ library(ggplot2)
 library(grid)
 library(gridExtra)
 library(reshape2)
+library(ggsci)
 
 figtheme <- theme_bw() + 
   theme(text = element_text(size=23,face='bold'),panel.border  = element_rect(colour = "black",size=2),
