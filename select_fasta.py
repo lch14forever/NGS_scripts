@@ -27,11 +27,11 @@ with open(fasta_file, 'rU') as f:
         if l.startswith('>'):
             if (l.split(' ')[0])[1:] in sel_dict:
                 select = True
-                print l
+                print(l)
             else:
                 select = False
         else:
             if select == True:
-                print l
+                print(l)
         
 

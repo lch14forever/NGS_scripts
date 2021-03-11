@@ -32,7 +32,7 @@ with open(targetFILE) as inH:
         fields = line.strip().split()
 
         if fields[0] in query_dict:
-            print line.strip()
+            print(line.strip())
             query_dict[fields[0]]=2
         
         
