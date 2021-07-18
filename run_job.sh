@@ -3,12 +3,14 @@
 
 ## Run command
 cmd=$@
-stdout=`$cmd`
+`$cmd >/tmp/job.stdout 2>/tmp/job.stderr`
 status=$?
 
+stderr=`cat /tmp/job.stderr`
+stdout=`cat /tmp/job.stdout`
 ## Text message
 MSG_SUCC="%23ExecutionLog%0ACommand: <b>$cmd</b>%0ASuccessful!"
-MSG_FAIL="%23ExecutionLog%0ACommand: <b>$cmd</b>%0AFailed!%0Aexit code: <b>$status</b>"
+MSG_FAIL="%23ExecutionLog%0ACommand: <b>$cmd</b>%0AFailed!%0Aexit code: <b>$status</b>%0AStderr: $stderr"
 
 ## Send message
 [ $status -eq 0 ] && msg=$MSG_SUCC || msg=$MSG_FAIL
